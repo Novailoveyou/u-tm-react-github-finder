@@ -1,15 +1,16 @@
 import { FaGithub } from 'react-icons/fa'
 import { Link } from 'react-router-dom'
 import PropTypes from 'prop-types'
+import urls from '../../config/urls'
 
 const Navbar = ({ title }) => {
   const links = [
     {
-      to: '/',
+      to: urls.front.home,
       label: 'Home'
     },
     {
-      to: '/about',
+      to: urls.front.about,
       label: 'About'
     }
   ]
