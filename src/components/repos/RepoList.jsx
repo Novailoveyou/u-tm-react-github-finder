@@ -10,6 +10,7 @@ const RepoList = () => {
 
   useEffect(() => {
     getUserRepos(params.login)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
