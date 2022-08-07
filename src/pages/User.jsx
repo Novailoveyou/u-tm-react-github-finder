@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import { FaCodepen, FaStore, FaUserFriends, FaUsers } from 'react-icons/fa'
 import GithubContext from '../context/github/GithubContext'
 import Spinner from '../components/layout/Spinner'
+import RepoList from '../components/repos/RepoList'
 import urls from '../config/urls'
 
 const User = () => {
@@ -137,7 +138,7 @@ const User = () => {
 
         <div className='w-full py-5 mb-6 rounded-lg shadow-md bg-base-100 stats'>
           {testimonials.map(({ Icon, label, value }) => (
-            <div className='stat'>
+            <div key={`User-stat-${label}`} className='stat'>
               <div className='stat-figure text-secondary'>
                 <Icon className='text-3xl md:text-5xl' />
               </div>
@@ -148,6 +149,7 @@ const User = () => {
             </div>
           ))}
         </div>
+        <RepoList />
       </div>
     </>
   )
