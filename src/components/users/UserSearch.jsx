@@ -4,18 +4,19 @@ import GithubContext from '../../context/github/GithubContext'
 const UserSearch = () => {
   const [searchTerm, setSearchTerm] = useState('')
 
-  const { users } = useContext(GithubContext)
+  const { users, getUsers } = useContext(GithubContext)
 
   const handleChange = e => setSearchTerm(e.target.value)
   const handleSubmit = e => {
     e.preventDefault()
 
-    if (searchTerm === '') {
+    if (!searchTerm) {
       alert('Please enter something')
-    } else {
-      // @TODO: search users
-      setSearchTerm('')
+      return
     }
+
+    getUsers(searchTerm)
+    setSearchTerm('')
   }
 
   return (
