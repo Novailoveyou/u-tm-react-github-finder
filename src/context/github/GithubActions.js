@@ -1,37 +1,34 @@
+import axios from 'axios'
 import urls from '../../config/urls'
 
 const GITHUB_URL = process.env.REACT_APP_GITHUB_URL
 const GITHUB_TOKEN = process.env.REACT_APP_GITHUB_TOKEN
+
+const github = axios.create({
+  baseURL: GITHUB_URL,
+  headers: {
+    Authorization: `token ${GITHUB_TOKEN}`
+  }
+})
 
 const fetchUsers = async searchTerm => {
   const params = new URLSearchParams({
     q: searchTerm
   })
 
-  const res = await fetch(`${GITHUB_URL}/search/users?${params}`, {
-    headers: {
-      Authorization: `token ${GITHUB_TOKEN}`
-    }
-  })
-
-  const { items } = await res.json()
-  return items
+  const res = await github.get(`/search/users?${params}`)
+  return res.data.items
 }
 
 const fetchUser = async login => {
-  const res = await fetch(`${GITHUB_URL}/users/${login}`, {
-    headers: {
-      Authorization: `token ${GITHUB_TOKEN}`
-    }
-  })
+  const res = await github.get(`${GITHUB_URL}/users/${login}`)
 
-  if (!res.status === 404) {
+  if (res.status === 404) {
     window.location = urls.front.notfound
-    return
+    return {}
   }
 
-  const data = await res.json()
-  return data
+  return res.data
 }
 
 const fetchRepos = async login => {
@@ -40,14 +37,9 @@ const fetchRepos = async login => {
     per_page: 10
   })
 
-  const res = await fetch(`${GITHUB_URL}/users/${login}/repos?${params}`, {
-    headers: {
-      Authorization: `token ${GITHUB_TOKEN}`
-    }
-  })
+  const res = await github.get(`${GITHUB_URL}/users/${login}/repos?${params}`)
 
-  const data = await res.json()
-  return data
+  return res.data
 }
 
 export { fetchUsers, fetchUser, fetchRepos }
