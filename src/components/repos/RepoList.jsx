@@ -1,17 +1,23 @@
 import { useEffect, useContext } from 'react'
 import { useParams } from 'react-router-dom'
 import GithubContext from '../../context/github/GithubContext'
+import { fetchRepos } from '../../context/github/GithubActions'
 import RepoItem from './RepoItem'
 
 const RepoList = () => {
-  const { getUserRepos, repos } = useContext(GithubContext)
+  const { repos, dispatch } = useContext(GithubContext)
 
   const params = useParams()
+  const { login } = params
 
   useEffect(() => {
-    getUserRepos(params.login)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    const getRepos = async () => {
+      const repos = await fetchRepos(login)
+      dispatch({ type: 'GET_REPOS', payload: repos })
+    }
+
+    getRepos(login)
+  }, [dispatch, login])
 
   return (
     <div className='rounded-lg shadow-lg card bg-base-100'>

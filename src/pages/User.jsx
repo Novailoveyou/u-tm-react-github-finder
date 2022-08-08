@@ -3,19 +3,27 @@ import { Link } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import { FaCodepen, FaStore, FaUserFriends, FaUsers } from 'react-icons/fa'
 import GithubContext from '../context/github/GithubContext'
+import { fetchUser } from '../context/github/GithubActions'
 import Spinner from '../components/layout/Spinner'
 import RepoList from '../components/repos/RepoList'
 import urls from '../config/urls'
 
 const User = () => {
-  const { getUser, user, loading } = useContext(GithubContext)
+  const { user, loading, dispatch } = useContext(GithubContext)
 
   const params = useParams()
 
   useEffect(() => {
-    getUser(params.login)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+    dispatch({ type: 'SET_LOADING' })
+
+    const getUser = async () => {
+      const { login } = params
+      const user = await fetchUser(login)
+      dispatch({ type: 'GET_USER', payload: user })
+    }
+
+    getUser()
+  }, [dispatch, params])
 
   const {
     name,
