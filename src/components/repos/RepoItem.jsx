@@ -1,11 +1,4 @@
-import {
-  FaEye,
-  FaStar,
-  FaInfo,
-  FaLink,
-  FaStarHalfAlt,
-  FaUtensils
-} from 'react-icons/fa'
+import { FaEye, FaStar, FaInfo, FaLink, FaUtensils } from 'react-icons/fa'
 import PropTypes from 'prop-types'
 
 const RepoItem = ({ repo }) => {
